@@ -1,0 +1,10 @@
+﻿<Application
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:kadmium_osc_dmx_firesafety"
+             xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="kadmium_osc_dmx_firesafety.App"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <System:String x:Key="Hostname"></System:String>
+    </Application.Resources>
+</Application>
