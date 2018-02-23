@@ -5,6 +5,6 @@
              xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="kadmium_osc_dmx_firesafety.App"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <System:String x:Key="Hostname"></System:String>
+        
     </Application.Resources>
 </Application>

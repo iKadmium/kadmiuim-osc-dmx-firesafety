@@ -34,5 +34,29 @@ namespace kadmium_osc_dmx_firesafety.Properties {
                 this["Hostname"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("9001")]
+        public int Port {
+            get {
+                return ((int)(this["Port"]));
+            }
+            set {
+                this["Port"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("fire")]
+        public string Group {
+            get {
+                return ((string)(this["Group"]));
+            }
+            set {
+                this["Group"] = value;
+            }
+        }
     }
 }
