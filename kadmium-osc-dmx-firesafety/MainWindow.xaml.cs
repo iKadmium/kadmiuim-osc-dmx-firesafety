@@ -87,7 +87,13 @@ namespace kadmium_osc_dmx_firesafety
                 var bytes = message.ToByteArray();
                 try
                 {
-                    await udpClient.SendAsync(bytes, bytes.Length, Properties.Settings.Default.Hostname, Properties.Settings.Default.Port);
+                    IPAddress[] addresses = await Dns.GetHostAddressesAsync(Properties.Settings.Default.Hostname);
+                    foreach(var address in addresses.Where(x => x.AddressFamily == AddressFamily.InterNetwork))
+                    {
+                        IPEndPoint endPoint = new IPEndPoint(address, Properties.Settings.Default.Port);
+                        await udpClient.SendAsync(bytes, bytes.Length, endPoint);
+                    }
+                    
                 }
                 catch(Exception e)
                 {
