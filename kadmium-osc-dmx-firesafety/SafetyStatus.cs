@@ -9,6 +9,7 @@ namespace kadmium_osc_dmx_firesafety
 {
     public class SafetyStatus : INotifyPropertyChanged
     {
+        private Exception _error;
         private bool _status;
 
         public bool Status {
@@ -19,13 +20,37 @@ namespace kadmium_osc_dmx_firesafety
             set
             {
                 _status = value;
+                _error = null;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Status)));
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StatusString)));
             }
         }
 
-        public string StatusString { get { return Status ? "Safe" : "Unsafe"; } }
+        public string StatusString
+        {
+            get
+            {
+                if (_error != null)
+                {
+                    return _error.Message;
+                }
+                else
+                {
+                    return Status ? "Safe" : "Unsafe";
+                }
+            }
+        }
+
         public float StatusFloat { get { return Status ? 1f : 0f; } }
+        public Exception Error
+        {
+            get { return _error; }
+            set
+            {
+                _error = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StatusString)));
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         public SafetyStatus()

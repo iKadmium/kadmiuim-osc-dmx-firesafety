@@ -6,7 +6,7 @@
         xmlns:properties="clr-namespace:kadmium_osc_dmx_firesafety.Properties"
         xmlns:local="clr-namespace:kadmium_osc_dmx_firesafety"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Unloaded="Window_Unloaded">
+        Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
         <local:SafetyStatus x:Key="Status" Status="False"/>
         <DataTemplate DataType="local:InputDeviceWrapper">

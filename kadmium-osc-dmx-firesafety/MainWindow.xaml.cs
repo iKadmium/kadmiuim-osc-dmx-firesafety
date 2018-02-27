@@ -1,8 +1,8 @@
-﻿using SharpDX.DirectInput;
+﻿using Bespoke.Common.Osc;
+using SharpDX.DirectInput;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -37,13 +37,21 @@ namespace kadmium_osc_dmx_firesafety
         public MainWindow()
         {
             InitializeComponent();
+            Dispatcher.ShutdownStarted += Dispatcher_ShutdownStarted;
+
             safetyStatus = Resources["Status"] as SafetyStatus;
             
             updateHandler = new EventHandler(onUpdate);
             updateTimer = new DispatcherTimer(updateTime, DispatcherPriority.Normal, onUpdate, Dispatcher);
             directInput = new DirectInput();
-            udpClient = new UdpClient(Properties.Settings.Default.Hostname, Properties.Settings.Default.Port);
+            udpClient = new UdpClient();
             InitJoystick();
+        }
+
+        private void Dispatcher_ShutdownStarted(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Save();
+            Dispose();
         }
 
         public void InitJoystick()
@@ -75,24 +83,25 @@ namespace kadmium_osc_dmx_firesafety
 
                 safetyStatus.Status = isSafe;
                 string oscAddress = "/group/" + Properties.Settings.Default.Group + "/FireSafety";
-                Bespoke.Common.Osc.OscMessage message = new Bespoke.Common.Osc.OscMessage(null, oscAddress, safetyStatus.StatusFloat);
+                OscMessage message = new OscMessage(null, oscAddress, safetyStatus.StatusFloat);
                 var bytes = message.ToByteArray();
-                await udpClient.SendAsync(bytes, bytes.Length);
+                try
+                {
+                    await udpClient.SendAsync(bytes, bytes.Length, Properties.Settings.Default.Hostname, Properties.Settings.Default.Port);
+                }
+                catch(Exception e)
+                {
+                    safetyStatus.Error = e;
+                }
             }
         }
         
-        private void Window_Unloaded(object sender, RoutedEventArgs e)
-        {
-            Properties.Settings.Default.Save();
-        }
-
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var control = sender as TabControl;
             var selected = control.SelectedItem as TabItem;
             if(e.RemovedItems.Contains(tabSettings))
             {
-                udpClient = new UdpClient(Properties.Settings.Default.Hostname, Properties.Settings.Default.Port);
                 var selectedDevice = (cboDevices.SelectedItem as InputDeviceWrapper);
                 Properties.Settings.Default.InputDeviceGuid = selectedDevice?.Device.InstanceGuid ?? Guid.Empty;
                 Properties.Settings.Default.Save();
@@ -120,6 +129,7 @@ namespace kadmium_osc_dmx_firesafety
         {
             if(joystick != null)
             {
+                joystick.Unacquire();
                 joystick.Dispose();
             }
         }
