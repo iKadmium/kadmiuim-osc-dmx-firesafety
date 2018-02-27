@@ -11,5 +11,8 @@
     <Setting Name="Group" Type="System.String" Scope="User">
       <Value Profile="(Default)">fire</Value>
     </Setting>
+    <Setting Name="InputDeviceGuid" Type="System.Guid" Scope="User">
+      <Value Profile="(Default)">00000000-0000-0000-0000-000000000000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

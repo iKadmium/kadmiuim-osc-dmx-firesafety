@@ -40,6 +40,12 @@
     <Reference Include="Bespoke.Common.Osc, Version=0.0.0.0, Culture=neutral, PublicKeyToken=843a094264521388, processorArchitecture=x86">
       <HintPath>packages\Bespoke-OSC-Library.1.0.0\lib\Bespoke.Common.Osc.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DirectInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>packages\SharpDX.DirectInput.4.0.1\lib\net45\SharpDX.DirectInput.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -60,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="InputDeviceWrapper.cs" />
     <Compile Include="SafetyStatus.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

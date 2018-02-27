@@ -9,6 +9,9 @@
         Title="MainWindow" Height="350" Width="525" Unloaded="Window_Unloaded">
     <Window.Resources>
         <local:SafetyStatus x:Key="Status" Status="False"/>
+        <DataTemplate DataType="local:InputDeviceWrapper">
+            <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <TabControl Margin="10" SelectionChanged="TabControl_SelectionChanged" x:Name="tabStrip">
@@ -34,6 +37,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Label Content="Destination Host" Margin="10,10,5,5"/>
                     <TextBox Grid.Column="1" Text="{Binding Source={x:Static properties:Settings.Default},
@@ -44,6 +48,9 @@
                     <Label Content="Destination Group" Margin="10,5,5,5" Grid.Row="2"/>
                     <TextBox Grid.Column="1" Text="{Binding Source={x:Static properties:Settings.Default},
                                Path=Group}" Margin="5,5,10,5" Grid.Row="2"></TextBox>
+                    <Label Content="Listening Device" Margin="10,5,5,5" Grid.Row="3"/>
+                    <ComboBox Grid.Column="1" Margin="5,5,10,5" Grid.Row="3" Name="cboDevices" 
+                              DisplayMemberPath="Name" SelectionChanged="cboDevices_SelectionChanged"/>
                 </Grid>
             </TabItem>
             
