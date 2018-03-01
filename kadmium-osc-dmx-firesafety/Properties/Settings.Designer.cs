@@ -70,5 +70,17 @@ namespace kadmium_osc_dmx_firesafety.Properties {
                 this["InputDeviceGuid"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int UpdateRate {
+            get {
+                return ((int)(this["UpdateRate"]));
+            }
+            set {
+                this["UpdateRate"] = value;
+            }
+        }
     }
 }

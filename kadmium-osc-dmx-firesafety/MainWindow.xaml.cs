@@ -27,8 +27,6 @@ namespace kadmium_osc_dmx_firesafety
     public partial class MainWindow : Window, IDisposable
     {
         private DispatcherTimer updateTimer;
-        private TimeSpan updateTime = new TimeSpan(0, 0, 0, 0, 250);
-        private EventHandler updateHandler;
         private SafetyStatus safetyStatus;
         private UdpClient udpClient;
         private DirectInput directInput;
@@ -41,11 +39,10 @@ namespace kadmium_osc_dmx_firesafety
 
             safetyStatus = Resources["Status"] as SafetyStatus;
             
-            updateHandler = new EventHandler(onUpdate);
-            updateTimer = new DispatcherTimer(updateTime, DispatcherPriority.Normal, onUpdate, Dispatcher);
             directInput = new DirectInput();
             udpClient = new UdpClient();
             InitJoystick();
+            InitTimer();
         }
 
         private void Dispatcher_ShutdownStarted(object sender, EventArgs e)
@@ -67,6 +64,16 @@ namespace kadmium_osc_dmx_firesafety
                 joystick = new Joystick(directInput, inputDevice.InstanceGuid);
                 joystick.Acquire();
             }
+        }
+
+        private void InitTimer()
+        {
+            if(updateTimer != null)
+            {
+                updateTimer.Stop();
+            }
+            var updateTime = new TimeSpan(0, 0, 0, 0, 1000 / Properties.Settings.Default.UpdateRate);
+            updateTimer = new DispatcherTimer(updateTime, DispatcherPriority.Normal, onUpdate, Dispatcher);
         }
 
         private async void onUpdate(object caller, EventArgs args)
@@ -112,6 +119,7 @@ namespace kadmium_osc_dmx_firesafety
                 Properties.Settings.Default.InputDeviceGuid = selectedDevice?.Device.InstanceGuid ?? Guid.Empty;
                 Properties.Settings.Default.Save();
                 InitJoystick();
+                InitTimer();
             }
             else if(e.AddedItems.Contains(tabSettings))
             {
